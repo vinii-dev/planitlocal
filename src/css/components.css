@@ -1,0 +1,20 @@
+/* Task Item */
+.task-item {
+    padding: 0.5rem;
+    height: auto;
+    border: 2px #ededed solid;
+    border-radius: 0.5rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.task-item-info__title {
+    font-size: 1.5rem;
+}
+
+.task-item-info__date {
+    font-size: 1rem;
+    opacity: .6;
+}
