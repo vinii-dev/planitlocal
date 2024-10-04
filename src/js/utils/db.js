@@ -1,74 +1,145 @@
-import { setup } from "../db/setup.js";
-
-/**
- * @type {IDBDatabase}
- */
-let _db;
-
-setup()
-  .then(async (database) => {
-    _db = database;
-  });
-
-const add = (name, obj) => {
+const wait = (time) => {
   return new Promise((resolve, reject) => {
-    const request = _db.transaction([name], 'readwrite').objectStore(name).add(obj);
-
-    request.onsuccess = () => resolve(request.result);
-    request.onerror = () => reject('Failed to add task');
+    setTimeout(() => {
+      resolve();
+    }, time);
   });
 }
 
-const remove = (name, id) => {
-  return new Promise((resolve, reject) => {
-    const request = _db.transaction([name],'readwrite').objectStore(name).delete(id);
+const db = (function() {
+  /**
+   * Cria a tabela de tarefas
+   * @param {IDBDatabase} db 
+   */
+  const createTaskTable = (db) =>
+    new Promise((resolve, reject) => {
+      const store = db.createObjectStore('tasks', { keyPath: 'id', autoIncrement: true });
 
-    request.onsuccess = () => resolve();
-    request.onerror = () => reject('Failed to remove task');
-  });
-}
+      store.createIndex('title', 'title', { unique: false });
+      store.createIndex('description', 'description', { unique: false });
+      store.createIndex('dueDate', 'dueDate', { unique: false });
 
-const update = (name, id, obj) => {
-  return new Promise((resolve, reject) => {
-    const request = _db.transaction([name],'readwrite').objectStore(name).put(obj, id);
+      store.transaction.oncomplete = () => {
+        resolve();
+      }
 
-    request.onsuccess = () => resolve();
-    request.onerror = () => reject('Failed to update task');
-  });
-}
+      store.transaction.onerror = () => {
+        reject('Failed to create task table');
+      }
+    });
 
-const getAll = (name) => {
-  return new Promise((resolve, reject) => {
-    const request = _db.transaction([name],'readonly').objectStore(name).getAll();
+  const setup = function() {
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.open('PlanItLocal');
+      let db;
 
-    request.onsuccess = () => resolve(request.result);
-    request.onerror = () => reject('Failed to get tasks');
-  });
-}
+      request.onerror = (event) => reject(event.target.errorCode);
+      request.onsuccess = (event) => resolve(event.target.result);
 
-const get = (name, id) => {
-  return new Promise((resolve, reject) => {
-    const request = _db.transaction([name],'readonly').objectStore(name).get(id);
+      request.onupgradeneeded = (event) => {
+        db = event.target.result;
 
-    request.onsuccess = () => resolve(request.result);
-    request.onerror = () => reject('Failed to get tasks');
-  });
-}
+        createTaskTable(db)
+          .then(() => resolve(db))
+          .catch(error => reject(error));
+      }
+    });
+  }
 
-export const db = {
-  add,
-  update,
-  remove,
-  getAll,
-  get,
-}
+  /**
+   * @type {IDBDatabase}
+   */
+  let _db;
 
-export const namedDb = (name) => ({
-  add: (obj) => add(name, obj),
-  update: (id, obj) => update(name, id, obj),
-  remove: (id) => remove(name, id),
-  getAll: () => getAll(name),
-  get: (id) => get(name, id),
-})
+  setup()
+    .then(async (database) => {
+      _db = database;
+      console.log('Database setup complete');
+    })
+    .catch(error => console.error('Error setting up database:', error));
 
-window.db = db;
+  const add = (name, obj) => {
+    return new Promise(async (resolve, reject) => {
+      while(!_db) {
+        await wait(500);
+      }
+
+      const request = _db.transaction([name], 'readwrite').objectStore(name).add(obj);
+
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject('Failed to add task');
+    });
+  }
+
+  const remove = (name, id) => {
+    return new Promise(async (resolve, reject) => {
+      while(!_db) {
+        await wait(500);
+      }
+
+      const request = _db.transaction([name], 'readwrite').objectStore(name).delete(id);
+
+      request.onsuccess = () => resolve();
+      request.onerror = () => reject('Failed to remove task');
+    });
+  }
+
+  const update = (name, id, obj) => {
+    return new Promise(async (resolve, reject) => {
+      while(!_db) {
+        await wait(500);
+      }
+
+      const request = _db.transaction([name], 'readwrite').objectStore(name).put(obj, id);
+
+      request.onsuccess = () => resolve();
+      request.onerror = () => reject('Failed to update task');
+    });
+  }
+
+  const getAll = (name) => {
+    return new Promise(async (resolve, reject) => {
+      while(!_db) {
+        await wait(500);
+      }
+      
+      const request = _db.transaction([name], 'readonly').objectStore(name).getAll();
+
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject('Failed to get tasks');
+    });
+  }
+
+  const get = (name, id) => {
+    return new Promise(async (resolve, reject) => {
+      while(!_db) {
+        await wait(500);
+      }
+      
+      const request = _db.transaction([name], 'readonly').objectStore(name).get(id);
+      
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject('Failed to get tasks');
+    });
+  }
+
+  return {
+    add: (name, obj) => add(name, obj),
+    remove: (name, id) => remove(name, id),
+    update: (name, id, obj) => update(name, id, obj),
+    getAll: (name) => getAll(name),
+    get: (name, id) => get(name, id),
+  };
+})();
+
+const namedDb = function(name) {
+  const { add, remove, update, getAll, get } = db;
+
+  return {
+    add: (obj) => add(name, obj),
+    remove: ( id) => remove(name, id),
+    update: (id, obj) => update(name, id, obj),
+    getAll: () => getAll(name),
+    get: (id) => get(name, id),
+  }
+};

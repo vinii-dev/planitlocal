@@ -1,25 +1,22 @@
-import { PlinHTMLElement } from "../../PlinHTMLElement.js";
-
 /**
  * @class
  * @extends {PlinHTMLElement}
  */
 class TaskItem extends PlinHTMLElement {
-  css = '/js/components/task/task-item/task-item.style.css';
-
   static observedAttributes = ['title', 'description', 'dueAt'];
   proeprties = ['title', 'description', 'dueAt'];
 
-  render() {
+  template() {
     return `
       <div class="task-item">
-          <div class="task-item-info">
+        <div class="task-item-info">
+          <input type="checkbox" class="task-item-info__checkbox">
+          <div class="task-item-info-texts">
             <h2 class="task-item-info__title">${this.title}</h2>
-            <span class="task-item-info__date">${this.dueAt}</span>
+            <p class="task-item-info__description">${this.description ?? "Sem descrição"}</p>
           </div>
-          <div>
-
-          </div>
+          <span class="task-item-info__date">${this.dueAt}</span>
+        </div>
       </div>
     `;
   }

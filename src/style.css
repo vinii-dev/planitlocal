@@ -1,3 +1,22 @@
 body {
-    font-family: 'sans-serif';
+    font-family: "Roboto", sans-serif;
+    color: var(--text-800);
 }
+
+.wrapper {
+    height: 100vh;
+    display: flex;
+}
+
+hr {
+    border-top: 1px solid #ededed;
+}
+
+main {
+    flex: 1;
+}
+
+input {
+    border: none;
+}
+

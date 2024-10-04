@@ -2,35 +2,56 @@
  * @class
  * @extends {HTMLElement}
  */
-export class PlinHTMLElement extends HTMLElement {
+class PlinHTMLElement extends HTMLElement {
   proeprties = ['title', 'description', 'dueAt']
-  /**
-   * @type {string|null}
-   */
-  css = null;
-
-
+  
   constructor() {
     super();
   }
 
   /**
-   * 
+   * Define o template do componente
+   * @returns {string}
    */
-  render() { }
+  template() { }
 
   connectedCallback() {
     this.proeprties.forEach(property => {
       this[property] = this.getAttribute(property) || '';
     });
 
-    const template = this.render();
-    this.innerHTML = template;
+    this.render();
+  }
+
+  /**
+   * Adiciona o template ao html do componente
+   * @private
+   */
+  render() {
+    this.innerHTML = this.template();
   }
 
   attributeChangedCallback() {
-    this.innerHTML = '';
     this.render();
+  }
+
+  /**
+   * 
+   * @param {Array} data 
+   * @param {Function} renderingFn 
+   * @param {String} container 
+   */
+  renderMap(data, renderingFn, container = '') {
+    /**
+     * @type {HTMLElement}
+     */
+    let containerElm;
+
+    if(container === '') containerElm = this;
+    else containerElm = this.querySelector(container);
+
+    containerElm.innerHTML = '';
+    containerElm.innerHTML = data.map(renderingFn).join('\n');
   }
 }
 
