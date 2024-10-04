@@ -4,7 +4,7 @@
  */
 class Sidebar extends PlinHTMLElement {
   template() {
-    const pathFind = /^.*planitlocal.*\/src/;
+    const pathFind = /^.*(planitlocal|planitnow).*\/src/;
     const root = pathFind.exec(window.location.href)[0];
 
     return `

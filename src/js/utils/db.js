@@ -59,11 +59,7 @@ const db = (function () {
       request.onupgradeneeded = (event) => {
         db = event.target.result;
 
-        createTaskTable(db)
-          .then(() => resolve(db))
-          .catch(error => reject(error));
-
-        createEventTable(db)
+        Promise.all([createTaskTable(db), createEventTable(db)])
           .then(() => resolve(db))
           .catch(error => reject(error));
       }
@@ -127,7 +123,7 @@ const db = (function () {
         await wait(500);
       }
 
-      const request = _db.transaction([name], 'readonly').objectStore(name).getAll();
+      const request = _db.transaction([name], 'readwrite').objectStore(name).getAll();
 
       request.onsuccess = () => resolve(request.result);
       request.onerror = () => reject('Failed to get tasks');
@@ -140,7 +136,7 @@ const db = (function () {
         await wait(500);
       }
 
-      const request = _db.transaction([name], 'readonly').objectStore(name).get(id);
+      const request = _db.transaction([name], 'readwrite').objectStore(name).get(id);
 
       request.onsuccess = () => resolve(request.result);
       request.onerror = () => reject('Failed to get tasks');
@@ -153,6 +149,7 @@ const db = (function () {
     update: (name, id, obj) => update(name, id, obj),
     getAll: (name) => getAll(name),
     get: (name, id) => get(name, id),
+    close: () => _db.close(),
   };
 })();
 

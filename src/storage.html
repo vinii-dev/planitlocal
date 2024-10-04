@@ -6,6 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PlanItLocal!</title>
+    <link rel="icon" type="image/svg+xml" href="./favicon/favicon.svg">
+    <link rel="icon" type="image/png" href="./favicon/favicon.png">
     
     <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="./css/theme.css">
@@ -44,7 +46,17 @@
     </div>
     <script>
         function resetDb() {
-            indexedDB.deleteDatabase('PlanItLocal');
+            console.log("deleting...");
+            db.close();
+            const deleting = indexedDB.deleteDatabase('PlanItLocal');
+
+            deleting.onsuccess = function () {
+                console.log("Database deleted successfully");
+            };
+
+            deleting.onerror = function() {
+                console.log("Error deleting database");
+            }
         }
     </script>
 </body>
