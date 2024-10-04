@@ -219,8 +219,8 @@ footer span {
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  height: 100%;
-  grid-template-rows: 40px repeat(6, 1fr); 
+  height: 90%;
+  grid-template-rows: 40px repeat(5, 1fr); 
 }
 
 .calendar-header {
