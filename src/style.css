@@ -9,7 +9,8 @@ body {
 }
 
 hr {
-    border-top: 1px solid #ededed;
+    border: none;
+    border-top: 2px solid #ededed;
 }
 
 main {
@@ -20,3 +21,13 @@ input {
     border: none;
 }
 
+section > h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+plin-task-list > section, plin-calendar > section {
+    padding: 2rem 3rem;
+    overflow: hidden;
+}

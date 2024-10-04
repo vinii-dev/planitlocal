@@ -31,10 +31,6 @@ class PlinHTMLElement extends HTMLElement {
     this.innerHTML = this.template();
   }
 
-  attributeChangedCallback() {
-    this.render();
-  }
-
   /**
    * 
    * @param {Array} data 

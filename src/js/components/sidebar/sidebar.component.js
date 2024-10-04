@@ -4,20 +4,24 @@
  */
 class Sidebar extends PlinHTMLElement {
   template() {
-    console.log(this.children);
-
     return `
       <nav class="sidebar">
-        <a class="logo">PlanItLocal</a>
+        <header>
+          <a class="logo">PlanItLocal</a>
+        </header>
         <hr >
         <ul>
           <li class="nav-item">
-            <i class="fa-solid fa-list-check"></i>
-            <span>Lista de tarefas</span>
+            <a href="/tasks/listing.html">
+              <i class="fa-solid fa-list-check"></i>
+              <span>Lista de tarefas</span>
+            </a>
           </li>
           <li class="nav-item">
-            <i class="fa-solid fa-calendar-day"></i>
-            <span>Eventos</span>
+            <a href="/events/listing.html">
+              <i class="fa-solid fa-calendar-day"></i>
+              <span>Eventos</span>
+            </a>
           </li>
         </ul>
       </nav>
