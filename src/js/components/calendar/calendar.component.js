@@ -9,12 +9,16 @@ class Calendar extends PlinHTMLElement {
 
   template() {
     return `
-      <section class="calendar-wrapper">
+      <section class="calendar-wrapper main-content">
         <h1>Eventos</h1>
         <div class="calendar-controls">
-          <button id="prevMonth">◀</button>
+          <button id="prevMonth">
+            <i class="fa fa-solid fa-chevron-left"></i>
+          </button>
+          <button id="nextMonth">
+            <i class="fa fa-solid fa-chevron-right"></i>
+          </button>
           <span id="monthYear"></span>
-          <button id="nextMonth">▶</button>
         </div>
         <div class="calendar-grid">
           <div class="calendar-header">

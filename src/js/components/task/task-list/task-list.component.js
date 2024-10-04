@@ -13,7 +13,7 @@ class TaskList extends PlinHTMLElement {
 
   template() {
     return `
-      <section class="task-list-wrapper">
+      <section class="main-content" class="task-list-wrapper">
         <h1>Tarefas</h1>
         <input class="task-list-wrapper__add" placeholder="Adicionar nova tarefa" />
         <section class="listing-wrapper" id="not-done">

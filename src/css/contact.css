@@ -1,0 +1,42 @@
+.contact-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+input, select, textarea {
+  padding: 0.5rem;
+  border: 2px solid #dbdbdb;
+  border-radius: 0.3rem;
+  outline: none;
+  font-size: 0.9rem;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--accent-400);
+}
+
+button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.3rem;
+  background-color: var(--accent-500);
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 0.9rem;
+}
+
+button:hover {
+  background-color: var(--accent-400);
+}

@@ -3,3 +3,8 @@ document.addEventListener("DOMContentLoaded", () => {
     node.setAttribute('spellcheck', 'false');
   });
 });
+
+function updateSpaceInfo() {
+}
+
+updateSpaceInfo();

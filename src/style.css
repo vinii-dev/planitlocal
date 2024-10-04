@@ -27,7 +27,11 @@ section > h1 {
     margin-bottom: 1rem;
 }
 
-plin-task-list > section, plin-calendar > section {
+section.main-content {
     padding: 2rem 3rem;
     overflow: hidden;
+}
+
+strong {
+    font-weight: bold;
 }

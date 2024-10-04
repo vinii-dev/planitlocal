@@ -78,6 +78,17 @@ plin-sidebar {
     border-right: 2px #ededed solid;
 }
 
+footer {
+    align-self: center;
+    opacity: 0.8;
+    padding: .4rem;
+}
+
+footer span {
+    font-size: 0.8rem;
+    text-align: center;
+}
+
 .sidebar {
     display: flex;
     flex-direction: column;
@@ -112,6 +123,22 @@ plin-sidebar {
     background-color: #ededed;
     opacity: 1;
     cursor: pointer;
+}
+
+.nav-listing {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-listing ul {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.footer-list {
+    flex: 0 !important;
 }
 
 .nav-item.active {
@@ -174,6 +201,19 @@ plin-sidebar {
 /* Calendar Styles */
 .calendar-wrapper {
   height: 100vh;
+}
+
+.calendar-controls {
+    margin-bottom: 0.5rem;
+}
+
+.calendar-controls button {
+    padding: 0.5rem;
+    border: none;
+    border-radius: 999px;
+    width: 2rem;
+    aspect-ratio: 1/1;
+    cursor: pointer;
 }
 
 .calendar-grid {
@@ -246,4 +286,84 @@ plin-sidebar {
 .event-item .trash-icon {
     color: #FF3D00;
     font-size: 1.2rem;
+}
+
+/* Storage */
+.space-link {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    border-radius: 0.4rem;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+    text-align: center;
+}
+
+.space-info {
+    font-size: 0.8rem !important;
+    color: var(--text-600);
+    margin-bottom: 0.5rem;
+}
+
+.space-info span {
+    font-size: 0.8rem !important;
+}
+
+.space-bar-container {
+    width: 100%;
+    height: 0.5rem;
+    background-color: var(--text-200);
+    border-radius: 0.25rem;
+    overflow: hidden;
+}
+
+.space-bar {
+    height: 100%;
+    width: 0%;
+    background-color: var(--accent-500);
+    transition: width 0.3s ease;
+}
+
+/* Common */
+.card-box {
+    width: 100%;
+    border: 2px solid #dbdbdb;
+    border-radius: .5rem;
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-box-wrapper {
+    display: flex;
+    gap: 1rem;
+}
+
+.card-box.column {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 0.5rem;
+}
+
+.card-box.column > span {
+    font-size: 2rem;
+}
+
+.card-box > label {
+    opacity: 0.8;
+    font-size: 0.9rem;
+}
+
+.card-box button {
+    padding: .5rem 1rem;
+    background-color: transparent;
+    border: 2px solid rgb(255, 146, 146);
+    color: rgb(255, 75, 75);
+    border-radius: .5rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.card-box button:hover {
+    border: 2px solid rgb(255, 75, 75);;
 }
